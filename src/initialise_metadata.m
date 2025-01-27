@@ -16,10 +16,8 @@ load('/group/mlr-lab/Saskia/ECoG_RSL/src/cross-validation_index.mat');
 % load coordinates
 coordinates = readtable([root,'/derivatives/data/mni_coordinates.csv']);
 
-
 % get files with data in
 dataDirs = dir([root,'/derivatives/data/sub*']);
-
 
 % initialise output 
 metadata = {};
@@ -30,7 +28,7 @@ for s = 1:size(dataDirs)
     % fill in metadata. Note that WISC_MVPA expects very specific labels
     % for any fields that are subsequently mentioned in .yaml files.
 
-    % Participant ID
+    % subject ID
     metadata(s).subject = str2num(erase(dataDirs(s).name,'sub-'));
     
     % decoding target (Dilkina norms)
@@ -66,20 +64,27 @@ for s = 1:size(dataDirs)
     metadata(s).filters(4).dimension = 1;
     metadata(s).filters(4).filter = [false(50,1);true(50,1)];
     % anterior filter will include electrodes in the anterior half of the
-    % electrode coverage region. The most anterior electrode is at y = -74
-    % and the most posterior one is at y = 28, so the midpoint is y = -23. 
-    %%%%%%%%%%%%
+    % electrode coverage region. The most anterior electrode is at y = 28
+    % and the most posterior one is at y = -74, so the midpoint is y = -23.
+    % However, leave empty for now.
+    metadata(s).filters(5).label = 'anterior';
+    metadata(s).filters(5).dimension = 2;
+    metadata(s).filters(5).filter = [];
+    % posterior filter will include elecrodes in the posterior half - leave
+    % empty for now
+    metadata(s).filters(6).label = 'posterior';
+    metadata(s).filters(6).dimension = 2;
+    metadata(s).filters(6).filter = [];
 
     % coordinates
     % coordinates are given in MNI space
     metadata(s).coords.orientation = 'mni';
-    % leave electrode labels, and alternative coordinate labelling fields,
-    % unfilled for now
+    % leave electrode labels, alternative coordinate labelling fields, and
+    % coordinates themselves unfilled for now
     metadata(s).coords.labels = [];
     metadata(s).coords.ijk = [];
     metadata(s).coords.ind = [];
-    % coordinates themselves
-    metadata(s).coords.xyz = coordinates{find(coordinates{:,1}==metadata(s).subject),2:4};
+    metadata(s).coords.xyz = [];
 
     % cross-validation schemes
     metadata(s).cvind = cvind;

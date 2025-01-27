@@ -1,9 +1,11 @@
-function X = window_volt_data(data,subID,varargin)
+function X = window_volt_data(data,subID,coordinates,varargin)
     % Divide time-frequency power or phase data into windows. 
 
     % Arguments:
     % data = data (items x electrodes x time in ms)
     % subID = subject ID in the form sub-xx (character array)
+    % coordinates = coordinates of all electrodes for all participants
+    % (loaded from mni_cooordinates.csv or similar file; n x 4 array - numeric ID, x, y, z)
     % electrodes = logical index of electrodes from which to get data (default = all electrodes in d)
     % windowMax = centre of final window (first window is at stimulus
     % onset, default = 1650 ms)
@@ -40,11 +42,15 @@ function X = window_volt_data(data,subID,varargin)
         X = reshape(X,size(X,1),[]);
 
         % make output directory
-        if ~exist([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%03d',timepoint-(baseline+1)),'/'])
-            mkdir([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%03d',timepoint-(baseline+1)),'/'])
+        if ~exist([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%04d',timepoint-(baseline+1)),'/'])
+            mkdir([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%04d',timepoint-(baseline+1)),'/']);
+            % copy metadata template in
+            copyfile([root,'/derivatives/metadata_template.mat'],[root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%04d',timepoint-(baseline+1)),'/metadata.mat']);
         end
         % save
-        save([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%03d',timepoint-(baseline+1)),'/',subID,'.mat'],'X','-v7.3')
-
+        save([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%04d',timepoint-(baseline+1)),'/',subID,'.mat'],'X','-v7.3');
+        % update metadata
+        update_metadata([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%04d',timepoint-(baseline+1)),'/metadata.mat'],X,coordinates,subID,'voltage',sprintf('%04d',timepoint-(baseline+1)));
+        
     end
 end
