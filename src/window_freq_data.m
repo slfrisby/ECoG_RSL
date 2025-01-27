@@ -14,7 +14,9 @@ function window_freq_data(data,dataType,subID)
         % get data for all freqencies
         X = get_freq_win(data,timepoint);
         % make output directory
-        mkdir([root,'derivatives/windowed/',dataType,'/range/all/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        if ~exist([root,'derivatives/windowed/',dataType,'/range/all/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+            mkdir([root,'derivatives/windowed/',dataType,'/range/all/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        end
         % save data
         save([root,'derivatives/windowed/',dataType,'/range/all/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/',subID,'.mat'],'X','-v7.3')
         
@@ -23,7 +25,9 @@ function window_freq_data(data,dataType,subID)
         frequencies(1:11) = true;
         X = get_freq_win(data,timepoint,'frequencies',frequencies);
         % make output directory and save
-        mkdir([root,'derivatives/windowed/',dataType,'/range/theta/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        if ~exist([root,'derivatives/windowed/',dataType,'/range/theta/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+            mkdir([root,'derivatives/windowed/',dataType,'/range/theta/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        end
         save([root,'derivatives/windowed/',dataType,'/range/theta/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/',subID,'.mat'],'X','-v7.3')
         
         % get data for alpha range only
@@ -31,7 +35,9 @@ function window_freq_data(data,dataType,subID)
         frequencies(12:18) = true;
         X = get_freq_win(data,timepoint,'frequencies',frequencies);
         % make output directory and save
-        mkdir([root,'derivatives/windowed/',dataType,'/range/alpha/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        if ~exist([root,'derivatives/windowed/',dataType,'/range/alpha/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+            mkdir([root,'derivatives/windowed/',dataType,'/range/alpha/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        end
         save([root,'derivatives/windowed/',dataType,'/range/alpha/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/',subID,'.mat'],'X','-v7.3')
         
         % get data for beta range only 
@@ -39,7 +45,9 @@ function window_freq_data(data,dataType,subID)
         frequencies(19:31) = true;
         X = get_freq_win(data,timepoint,'frequencies',frequencies);
         % make output directory and save
-        mkdir([root,'derivatives/windowed/',dataType,'/range/beta/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        if ~exist([root,'derivatives/windowed/',dataType,'/range/beta/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+            mkdir([root,'derivatives/windowed/',dataType,'/range/beta/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        end
         save([root,'derivatives/windowed/',dataType,'/range/beta/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/',subID,'.mat'],'X','-v7.3')
         
         % get data for gamma range only
@@ -47,7 +55,9 @@ function window_freq_data(data,dataType,subID)
         frequencies(32:41) = true;
         X = get_freq_win(data,timepoint,'frequencies',frequencies);
         % make output directory and save
-        mkdir([root,'derivatives/windowed/',dataType,'/range/gamma/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        if ~exist([root,'derivatives/windowed/',dataType,'/range/gamma/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+            mkdir([root,'derivatives/windowed/',dataType,'/range/gamma/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        end
         save([root,'derivatives/windowed/',dataType,'/range/gamma/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/',subID,'.mat'],'X','-v7.3')
         
         % get data for high gamma range only
@@ -55,7 +65,9 @@ function window_freq_data(data,dataType,subID)
         frequencies(42:60) = true;
         X = get_freq_win(data,timepoint,'frequencies',frequencies);
         % make output directory and save
-        mkdir([root,'derivatives/windowed/',dataType,'/range/highGamma/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        if ~exist([root,'derivatives/windowed/',dataType,'/range/highGamma/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+            mkdir([root,'derivatives/windowed/',dataType,'/range/highGamma/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/'])
+        end
         save([root,'derivatives/windowed/',dataType,'/range/highGamma/waveletCentre/',sprintf('%03d',(timepoint-1)*10),'/',subID,'.mat'],'X','-v7.3')
         
     end

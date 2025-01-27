@@ -11,7 +11,7 @@ function X = window_volt_data(data,subID,varargin)
     % = 10 ms, i.e. windows centred at 0 ms, 10 ms, 20 ms ...)
     % windowSize = window size (default = 50 ms)
     % baseline = baseline length (default = 1000 ms, i.e. stimulus onset is index 1001)
-    
+
     root = '/group/mlr-lab/Saskia/ECoG_RSL/';
 
     % parse optional inputs
@@ -39,8 +39,10 @@ function X = window_volt_data(data,subID,varargin)
         X = permute(X,[1 3 2]);
         X = reshape(X,size(X,1),[]);
 
-        % make output directory. 
-        mkdir([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%03d',timepoint-(baseline+1)),'/'])
+        % make output directory
+        if ~exist([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%03d',timepoint-(baseline+1)),'/'])
+            mkdir([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%03d',timepoint-(baseline+1)),'/'])
+        end
         % save
         save([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%03d',timepoint-(baseline+1)),'/',subID,'.mat'],'X','-v7.3')
 

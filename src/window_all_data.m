@@ -7,25 +7,25 @@ root = '/group/mlr-lab/Saskia/ECoG_RSL/';
 cd(root);
 
 % get files with data in
-datadirs = dir([root,'/derivatives/data/sub*']);
+dataDirs = dir([root,'/derivatives/data/sub*']);
 
 % loop over participants
-for s = 1:size(datadirs)
+for s = 1:size(dataDirs)
 
     % load decibel-normalised power data
-    load([root,'/derivatives/data/',datadirs(s).name,'/dBpower.mat'])
+    load([root,'/derivatives/data/',dataDirs(s).name,'/dBpower.mat'])
     % window
-    window_freq_data(dBpower,'power',datadirs(s).name);
+    window_freq_data(dBpower,'power',dataDirs(s).name);
 
     % load phase data
-    load([root,'/derivatives/data/',datadirs(s).name,'/phase.mat'])
+    load([root,'/derivatives/data/',dataDirs(s).name,'/phase.mat'])
     % window
-    window_freq_data(phase,'phase',datadirs(s).name);
+    window_freq_data(phase,'phase',dataDirs(s).name);
 
     % load voltage data
-    load([root,'/derivatives/data/',datadirs(s).name,'/voltage.mat'])
+    load([root,'/derivatives/data/',dataDirs(s).name,'/voltage.mat'])
     % window
-    window_volt_data(voltage,datadirs(s).name);
+    window_volt_data(voltage,dataDirs(s).name);
     
 end
 
