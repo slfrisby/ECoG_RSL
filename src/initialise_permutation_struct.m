@@ -32,9 +32,12 @@ for s = 1:size(dataDirs)
     for i = 1:10000
         indices(:,i) = randperm(size(stimuli,1))';
     end
-    permutationStruct(s).permutation_index = permutationStruct;
+    permutationStruct(s).permutation_index = indices;
 
 end
 
 % save
+if ~exist([root,'/derivatives/windowed/'])
+    mkdir([root,'/derivatives/windowed/'])
+end
 save([root,'/derivatives/windowed/permutation_struct.mat'],'permutationStruct','-v7.3');
