@@ -14,3 +14,6 @@ cp /group/mlr-lab/Saskia/ECoG_LASSO/derivatives/wavelet/sub-$s/phase.mat /group/
 cp /group/mlr-lab/Saskia/ECoG_LASSO/derivatives/wavelet/sub-$s/voltage.mat /group/mlr-lab/Saskia/ECoG_RSL/derivatives/data/sub-$s/voltage.mat
 
 done
+
+# copy MNI coordinates
+cp /group/mlr-lab/Saskia/ECoG_LASSO/scripts/mni_coordinates.csv /group/mlr-lab/Saskia/ECoG_RSL/derivatives/data/mni_coordinates.csv
