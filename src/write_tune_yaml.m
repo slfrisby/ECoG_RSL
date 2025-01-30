@@ -21,7 +21,7 @@ y.SaveResultsAs = 'mat';
 % use hyperband
 y.SearchWithHyperband = true;
 
-% bias (!! unsure what this is)
+% should we fit the intercept of the model? No (0, default) or yes (1)
 y.bias = 0;
 % hyperparameters - range to search (default 0:6) and distribution
 y.lambda.args = {0,6};
@@ -36,7 +36,8 @@ y.HYPERBAND.hyperparameters = {'lambda','lambda1'};
 y.LambdaSeq = 'linear';
 % normalize using z-scoring
 y.normalize_data = 'zscore';
-% normalize the target to the center (!! clarify)
+% normalize the target to the center, i.e. subtract the mean value from
+% each target value
 y.normalize_target = 'center';
 % normalize the data to the training set during training
 y.normalize_wrt = 'training_set';
@@ -46,7 +47,7 @@ matFiles = dir([root,'/derivatives/windowed/**/*.mat']);
 % concatenate filename and folder name to get full file path
 fullFilePaths = arrayfun(@(x) fullfile(x.folder, x.name), matFiles, 'UniformOutput', false);
 % edit filepath to the filepath on CHTC
-fullFilePaths = cellfun(@(x) strrep(x, root, chtcPath), fullFilePaths, 'UniformOutput', false);
+fullFilePaths = cellfun(@(x) strrep(x, [root,'derivatives/windowed/'], chtcPath), fullFilePaths, 'UniformOutput', false);
 % index data files
 dataIndex = contains(fullFilePaths,'sub-');
 dataPaths = fullFilePaths(dataIndex);
@@ -90,7 +91,7 @@ y.finalholdout = num2cell(1:10);
 % metadata.targets
 y.target_label = 'semantic';
 y.target_type = 'similarity';
-y.sim_source = 'DilkinaNormalized';
+y.sim_source = 'DilkinaNormalised'; % careful - British spelling used for metadata (despite American spelling used for toolbox compatibility!)
 y.sim_metric = 'cosine';
 % specify number of singular vectors into which to decompose the target
 % representational similarity matrix. N.B. if 0 < tau < 1, the similarity
@@ -120,7 +121,7 @@ y.wrapper = '/home/sfrisby/GitHub/WISC_MVPA/run_WISC_MVPA.sh';
 % set variables that are distributed across jobs (i.e. every job receives
 % one copy of data, one corresponding copy of metadata, and one combination of inner- and outer-loop holdout
 % folds)
-y.EXPAND = {'data';'metadata';{'finalholdout','cvholdout'}};
+y.EXPAND = {{'data';'metadata'};{'finalholdout','cvholdout'}};
 % state which files every job should receive
 y.COPY = {'executable';'wrapper'};
 % set up input queue (which will be automatically created and recorded in
