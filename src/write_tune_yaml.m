@@ -1,4 +1,4 @@
-% write tuning .yaml for RSL.
+% Write tuning .yaml for RSL.
 
 % setup
 addpath(genpath('/group/mlr-lab/Saskia/ECoG_RSL/dependencies/'))
