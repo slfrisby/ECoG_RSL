@@ -1,6 +1,0 @@
-[submodule "dependencies/WISC_MVPA"]
-	path = dependencies/WISC_MVPA
-	url = https://github.com/crcox/WISC_MVPA.git
-[submodule "dependencies/yaml"]
-	path = dependencies/yaml
-	url = https://github.com/MartinKoch123/yaml.git
