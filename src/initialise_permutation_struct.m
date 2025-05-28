@@ -13,9 +13,10 @@ load('/group/mlr-lab/Saskia/ECoG_RSL/src/stimuli.mat');
 
 % get files with data in
 dataDirs = dir([root,'/derivatives/data/sub*']);
+dataDirs = dataDirs([dataDirs.isdir]);
 
-% initialise output
-permutationStruct = {};
+% create permutation struct
+permutationStruct(1:size(dataDirs,1)) = struct('subject',[],'stimuli',{stimuli},'permutation_index',[]);
 
 % loop over participants
 for s = 1:size(dataDirs)
@@ -24,9 +25,6 @@ for s = 1:size(dataDirs)
 
     % subject ID
     permutationStruct(s).subject = str2num(erase(dataDirs(s).name,'sub-'));
-
-    % stimuli
-    permutationStruct(s).stimuli = stimuli;
 
     % permutation indices
     for i = 1:10000

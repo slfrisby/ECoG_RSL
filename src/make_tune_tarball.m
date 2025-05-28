@@ -1,5 +1,6 @@
-% Divide all power, phase and voltage data into windows
-% (wrapper script). 
+% make a file structure (complete with data, metadata, .yamls and .sub
+% files) for running the tune stage of the analysis on CHTC (wrapper
+% script).
 
 % setup
 addpath('/group/mlr-lab/Saskia/ECoG_RSL/src');
@@ -20,6 +21,7 @@ coordinates = readtable([root,'/derivatives/data/mni_coordinates.csv']);
 
 % get files with data in
 dataDirs = dir([root,'/derivatives/data/sub*']);
+dataDirs = dataDirs([dataDirs.isdir]);
 
 % loop over participants
 for s = 1:size(dataDirs)
@@ -41,9 +43,20 @@ for s = 1:size(dataDirs)
     
 end
 
+% tune, final, and perm directories will be in a directory called /analysis
+if ~exist([root,'derivatives/analysis'])
+
+    % make directories
+    mkdir([root,'derivatives/analysis']);
+    mkdir([root,'derivatives/analysis/tune']);
+    % populate directory with:
+    % tune.yaml
+    write_tune_yaml;
+    % tune.sub
+    copyfile([root,'/dependencies/WISC_MVPA/templates/apptainer_sub.sub'],[root,'derivatives/analysis/tune/tune.sub']);
+
+end
+
 % tarball for transfer to CHTC
-tar([root,'/derivatives/data.tar'],{[root,'/derivatives/windowed/power'],[root,'/derivatives/windowed/phase'],[root,'/derivatives/windowed/voltage'],[root,'/derivatives/windowed/permutation_struct.mat']})
-gzip([root,'/derivatives/data.tar'])
-
-
-
+tar([root,'/derivatives/tune.tar'],{[root,'/derivatives/windowed/power'],[root,'/derivatives/windowed/phase'],[root,'/derivatives/windowed/voltage'],[root,'/derivatives/windowed/permutation_struct.mat'],[root,'derivatives/analysis']})
+gzip([root,'/derivatives/tune.tar'])

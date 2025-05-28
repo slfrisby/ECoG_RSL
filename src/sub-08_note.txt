@@ -1,0 +1,1 @@
+The data for sub-08 electrode F14 are missing from the preprocessed data. This is because electrode F14 was incorrectly labelled as 'F_14' in the raw data and so was excluded when the script setup_data.m was run.

@@ -113,10 +113,11 @@ y.SmallFootprint = 1;
 % specify naming conventions for data files (in a manner compatible with
 % sprintf)
 y.subject_id_fmt = 'sub-%02d.mat';
-% set path to MATLAB binary on CHTC
-y.executable = '/home/sfrisby/GitHub/WISC_MVPA/WISC_MVPA';
+% set path to MATLAB binary on CHTC. !! When using apptainer, we set this
+% to the name of the shell script instead, to placate setupJobs
+y.executable = '/home/sfrisby/GitHub/WISC_MVPA/run_WISC_MVPA_Apptainer.sh';
 % set path to wrapper shell script for MATLAB binary
-y.wrapper = '/home/sfrisby/GitHub/WISC_MVPA/run_WISC_MVPA.sh';
+y.wrapper = '/home/sfrisby/GitHub/WISC_MVPA/run_WISC_MVPA_Apptainer.sh';
 
 % set variables that are distributed across jobs (i.e. every job receives
 % one copy of data, one corresponding copy of metadata, and one combination of inner- and outer-loop holdout
@@ -129,15 +130,13 @@ y.COPY = {'executable';'wrapper'};
 y.URLS = {'data','metadata'};
 
 % write .yaml
-if ~exist([root,'/derivatives/yaml/'])
-    mkdir([root,'/derivatives/yaml/'])
-end
+
 % block style is important for setupJobs
-yaml.dumpFile([root,'/derivatives/yaml/performance_tune.yaml'],y,'block');
+yaml.dumpFile([root,'/derivatives/analysis/tune/performance_tune.yaml'],y,'block');
 
 % also make dummy .yaml, for testing setupJobs. This has only 2 data and
 % metadata entries
 y.data = y.data(1:2);
 y.metadata = y.metadata(1:2);
-yaml.dumpFile([root,'/derivatives/yaml/DUMMY_performance_tune.yaml'],y,'block');
+yaml.dumpFile([root,'/derivatives/analysis/tune/DUMMY_performance_tune.yaml'],y,'block');
 

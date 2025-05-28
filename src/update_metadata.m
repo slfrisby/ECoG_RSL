@@ -12,12 +12,6 @@ function update_metadata(metadataRoot,X,coordinates,subID,range,waveletCentre)
     % waveletCentre = centre of wavelet or of corresponding voltage window
     % (! 4-DIGIT CHARACTER VECTOR)
 
-    % % parse optional inputs
-    % p = inputParser;
-    % addParameter(p,'windowSize',50);
-    % parse(p,varargin{:});
-    % windowSize = p.Results.windowSize;
-
     % load metadata
     load(metadataRoot);
 
