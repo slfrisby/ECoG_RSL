@@ -8,7 +8,7 @@ cd(root);
 
 % set data path on CHTC. This should be the path where the folders phase, power
 % and voltage (and permutation_struct.mat) are located. 
-chtcPath = '/home/groups/psych_rogers_group/saskia/ECoG_RSL/';
+chtcPath = '/home/sfrisby/ECoG_RSL/data/';
 
 % construct .yaml
 
@@ -134,9 +134,9 @@ y.URLS = {'data','metadata'};
 % block style is important for setupJobs
 yaml.dumpFile([root,'/derivatives/analysis/tune/performance_tune.yaml'],y,'block');
 
-% also make dummy .yaml, for testing setupJobs. This has only 2 data and
-% metadata entries
-y.data = y.data(1:2);
-y.metadata = y.metadata(1:2);
-yaml.dumpFile([root,'/derivatives/analysis/tune/DUMMY_performance_tune.yaml'],y,'block');
+% also make dummy .yaml, for testing. This has only 1 data and
+% metadata entry
+y.data = y.data(1);
+y.metadata = y.metadata(1);
+yaml.dumpFile([root,'/derivatives/analysis/tune/TEST_performance_tune.yaml'],y,'block');
 
