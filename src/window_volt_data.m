@@ -40,6 +40,8 @@ function X = window_volt_data(data,subID,coordinates,varargin)
         % reformat into 2-dimensional matrix (all timepoints for electrode 1, all timepoints for electrode 2, ...)
         X = permute(X,[1 3 2]);
         X = reshape(X,size(X,1),[]);
+        % force X to be a double - very important for WISC_MVPA workflow!
+        X = double(X);
 
         % make output directory
         if ~exist([root,'derivatives/windowed/voltage/waveletCentre/',sprintf('%04d',timepoint-(baseline+1)),'/'])
