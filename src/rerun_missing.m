@@ -17,8 +17,9 @@ missingIndex = false(size(queueInput,1),1);
 
 % for every folder in queue_input.csv
 for i = 1:size(queueInput,1)
-    % if the folder contains results.mat
+    % if the folder does not contain results.mat
     if ~exist([root,'\',queueInput{i,1},'\results.mat'])
+        % mark the file as missing
         missingIndex(i) = true;
     end
 end
