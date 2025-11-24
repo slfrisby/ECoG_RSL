@@ -1,9 +1,6 @@
 [submodule "dependencies/yaml"]
 	path = dependencies/yaml
 	url = https://github.com/MartinKoch123/yaml.git
-[submodule "/group/mlr-lab/Saskia/ECoG_RSL/dependencies/WISC_MVPA"]
-	path = /group/mlr-lab/Saskia/ECoG_RSL/dependencies/WISC_MVPA
-	url = https://github.com/crcox/WISC_MVPA.git
 [submodule "dependencies/jsonlab"]
 	path = dependencies/jsonlab
 	url = https://github.com/NeuroJSON/jsonlab
