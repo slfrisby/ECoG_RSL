@@ -22,7 +22,7 @@ function identify_best_config(path)
     end
 
     % load results
-    allResults = load([path,'/tune_performance.mat'],'allResults');
+    load([path,'/tune_performance.mat']);
 
     % also load tune.yaml
     if contains(path,'performance')
@@ -62,10 +62,10 @@ function identify_best_config(path)
     % then adjust the content of the tune.yaml to make a final.yaml. 
     % this time, we are not using hyperband
     y.SearchWithHyperband = false;
-    y = rmfield(y,{'HYPERBAND','BRACKETS'});
+    y = rmfield(y,{'HYPERBAND'});
     % each job will receive exactly one copy of data and the metadata,
     % hyperparameters, and holdout set that go with those data
-    y.EXPAND = {'data';'metadata';'cvholdout';'lambda';'lambda1'};
+    y.EXPAND = {{'data';'metadata';'cvholdout';'lambda';'lambda1'}};
     y.data = repmat(y.data,10,1);
     y.metadata = repmat(y.metadata,10,1);
     y.lambda = num2cell(finalJobs.lambda);
@@ -80,6 +80,9 @@ function identify_best_config(path)
         mkdir(replace(path,'tune','final'));
     end
     yaml.dumpFile([replace(path,'tune','final'),'/performance_final.yaml'],y,'block');
+    % also copy a .sub file across
+    copyfile([root,'/dependencies/WISC_MVPA/templates/apptainer_sub.sub'],[replace(path,'tune','final'),'/final.sub']);
+
 
     % also make dummy .yaml for testing.
     dummy = y;
@@ -104,13 +107,15 @@ function identify_best_config(path)
     y.URLS = {'data';'metadata';'PermutationIndex'};
     % specify how many total permutations should be done and how many
     % permutations to do per job.
-    y.RandomSeed = makeRandomSeed(1000,1000);
+    y.RandomSeed = make_random_seed(1000,1000);
     
     % save the perm.yaml. Block style is important for setupJobs
     if ~exist(replace(path,'tune','perm'))
         mkdir(replace(path,'tune','perm'));
     end
     yaml.dumpFile([replace(path,'tune','perm'),'/performance_perm.yaml'],y,'block');
+    % also copy a .sub file across
+    copyfile([root,'/dependencies/WISC_MVPA/templates/apptainer_sub.sub'],[replace(path,'tune','perm'),'/perm.sub']);
 
     % also make dummy .yaml for testing.
     dummy = y;
@@ -120,5 +125,8 @@ function identify_best_config(path)
     dummy.lambda1 = dummy.lambda(1:50);
     dummy.cvholdout = dummy.cvholdout(1:50);
     yaml.dumpFile([replace(path,'tune','perm'),'/DUMMY_performance_perm.yaml'],y,'block');
-    
+
+    % pause in debugger
+    tmp = 'tmp';
+
 end

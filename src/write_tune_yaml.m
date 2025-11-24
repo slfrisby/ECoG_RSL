@@ -132,11 +132,11 @@ y.URLS = {'data','metadata'};
 % write .yaml
 
 % block style is important for setupJobs
-yaml.dumpFile([root,'/derivatives/analysis/tune/performance_tune.yaml'],y,'block');
+yaml.dumpFile([root,'/derivatives/analysis/correlation/grOWL/performance/tune/performance_tune.yaml'],y,'block');
 
 % also make dummy .yaml, for testing. This has only 1 data and
 % metadata entry
 y.data = y.data(1);
 y.metadata = y.metadata(1);
-yaml.dumpFile([root,'/derivatives/analysis/tune/TEST_performance_tune.yaml'],y,'block');
+yaml.dumpFile([root,'/derivatives/analysis/correlation/grOWL/performance/tune/TEST_performance_tune.yaml'],y,'block');
 

@@ -1,4 +1,4 @@
-function randomSeeds = makeRandomSeed(nPermutations,nPermutationsPerJob)
+function randomSeeds = make_random_seed(nPermutations,nPermutationsPerJob)
 
     % specify:
     % - how many permutations should be run in total
@@ -15,6 +15,13 @@ function randomSeeds = makeRandomSeed(nPermutations,nPermutationsPerJob)
 
     groupSize = nPermutations/nPermutationsPerJob;
 
-    randomSeeds = arrayfun(@(k) ((k-1)*groupSize + 1 : k*groupSize)', 1:nPermutationsPerJob, 'UniformOutput', false);
+    randomSeeds = cell(1,groupSize);
+
+    for i = 1:groupSize
+        indices = ((i-1)*nPermutationsPerJob + 1) : (i*nPermutationsPerJob);
+        randomSeeds{i} = num2cell(indices(:));
+    end
+
+    % randomSeeds = arrayfun(@(k) ((k-1)*nPermutationsPerJob + 1 : k*nPermutationsPerJob)', 1:groupSize, 'UniformOutput', false);
     
 end

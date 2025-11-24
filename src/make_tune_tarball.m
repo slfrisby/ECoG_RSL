@@ -44,16 +44,16 @@ for s = 1:size(dataDirs)
 end
 
 % tune, final, and perm directories will be in a directory called /analysis
-if ~exist([root,'derivatives/analysis'])
+if ~exist([root,'derivatives/analysis/correlation/grOWL/performance/'])
 
     % make directories
-    mkdir([root,'derivatives/analysis']);
-    mkdir([root,'derivatives/analysis/tune']);
+    mkdir([root,'derivatives/analysis/correlation/grOWL/performance/']);
+    mkdir([root,'derivatives/analysis/correlation/grOWL/performance/tune']);
     % populate directory with:
     % tune.yaml
     write_tune_yaml;
     % tune.sub
-    copyfile([root,'/dependencies/WISC_MVPA/templates/apptainer_sub.sub'],[root,'derivatives/analysis/tune/tune.sub']);
+    copyfile([root,'/dependencies/WISC_MVPA/templates/apptainer_sub.sub'],[root,'derivatives/analysis/correlation/grOWL/performance/tune/tune.sub']);
 
 end
 
