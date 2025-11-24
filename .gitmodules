@@ -4,3 +4,6 @@
 [submodule "dependencies/jsonlab"]
 	path = dependencies/jsonlab
 	url = https://github.com/NeuroJSON/jsonlab
+[submodule "dependencies/WISC_MVPA"]
+	path = dependencies/WISC_MVPA
+	url = https://github.com/crcox/WISC_MVPA.git
