@@ -18,7 +18,7 @@ function identify_best_config(path)
 
     % check that tune_performance.mat exists. If it doesn't, create it
     if ~exist([path,'/tune_performance.mat'])
-        load_tuning_performance(path);
+        load_model_performance(path);
     end
 
     % load results
@@ -91,7 +91,7 @@ function identify_best_config(path)
     dummy.lambda = dummy.lambda(1:50);
     dummy.lambda1 = dummy.lambda(1:50);
     dummy.cvholdout = dummy.cvholdout(1:50);
-    yaml.dumpFile([replace(path,'tune','final'),'/DUMMY_performance_final.yaml'],y,'block');
+    yaml.dumpFile([replace(path,'tune','final'),'/DUMMY_performance_final.yaml'],dummy,'block');
 
     % then adjust the final .yaml to make a perm.yaml. 
     y.PermutationTest = true;
@@ -124,9 +124,6 @@ function identify_best_config(path)
     dummy.lambda = dummy.lambda(1:50);
     dummy.lambda1 = dummy.lambda(1:50);
     dummy.cvholdout = dummy.cvholdout(1:50);
-    yaml.dumpFile([replace(path,'tune','perm'),'/DUMMY_performance_perm.yaml'],y,'block');
-
-    % pause in debugger
-    tmp = 'tmp';
+    yaml.dumpFile([replace(path,'tune','perm'),'/DUMMY_performance_perm.yaml'],dummy,'block');
 
 end

@@ -1,25 +1,33 @@
-function load_tuning_performance(path)
+function load_model_performance(path)
    
     % loop through tune directory tree and collate results into a single
     % .mat file.
 
     % Arguments:
-    % - path = directory ending /tune and containing numbered directories. 
+    % - path = directory ending /tune or /final and containing numbered directories. 
 
     % setup 
     addpath('/group/mlr-lab/Saskia/ECoG_RSL/src/');
     addpath('/group/mlr-lab/Saskia/ECoG_RSL/dependencies/jsonlab/');
 
-    % load the directory tree. You are advised to set the option skip_large_matrices to true
+    % load the directory tree. You are advised to set the option
+    % skip_large_matrices to true for a tune job
     % (note that the names of the matrices to skip depend on whether it is SOSLASSO or RSL; see alternative version of this script: https://github.com/slfrisby/7TConvergent/blob/main/load_tuning_performance.m). 
     % This means that model coefficients, predicted coordinates, indices of 
     % nonzero model coefficients and coordinates of features (which are neither 
-    % needed nor useful at the tune stage) are not written as output.
-    SKIP = {'Uz', 'Cz', 'nz_rows', 'coords'};
-
+    % needed nor useful at the tune stage) are not written as output. For a
+    % final job, we need to write these large matrices.
+    if contains(path,'/tune')
+        skipLargeMatrices = true;
+        SKIP = {'Uz', 'Cz', 'nz_rows', 'coords'};
+    elseif contains(path,'/final')
+        skipLargeMatrices = false;
+        SKIP = {};
+    end
+    
     % load results
     disp('Loading results...')
-    allResults = load_from_condor(path,'skip_large_matrices',true,'SKIP',SKIP); 
+    allResults = load_from_condor(path,'skip_large_matrices',skipLargeMatrices,'SKIP',SKIP); 
 
     % These are ECoG results and so we want to group the jobs not only by
     % participant but also by data type (phase/power/voltage), frequency
@@ -29,8 +37,12 @@ function load_tuning_performance(path)
     queueInput = table2cell(readtable([path,'/queue_input.csv'],opts));
     % get just the second column
     jobInfo = queueInput(:,2);
-    % and, since each job contains 9 folds, repeat each element 9 times
-    jobInfo = repelem(jobInfo,9,1);
+
+    % in a tne job, each individual job contains 9 folds. For a final job,
+    % each contains only 1
+    if contains(path,'/tune')
+        jobInfo = repelem(jobInfo,9,1);
+    end
 
     % get the type of data (phase, power, or voltage) used in each job
     dataType = regexprep(jobInfo, '.*data/([^/]+)/.*', '$1');
@@ -50,7 +62,11 @@ function load_tuning_performance(path)
 
     % save the output as a .mat file
     disp('Saving...')
-    save([path,'/tune_performance.mat'],'allResults','-v7.3');
+    if contains(path,'/tune')
+        save([path,'/tune_performance.mat'],'allResults','-v7.3');
+    elseif contains(path,'/final')
+        save([path,'/final_performance.mat'],'allResults','-v7.3');
+    end
     disp('Done!')
 
 end
