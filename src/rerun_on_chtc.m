@@ -3,7 +3,7 @@
 % which contains only jobs that did not run successfully (and produce
 % results.mat) so that these jobs can be rerun.
 
-% THIS SCRIPT SHOULD BE USED WHEN THE NUMBER OF BAD JOBS IS LARGE (< 1000).
+% THIS SCRIPT SHOULD BE USED WHEN THE NUMBER OF BAD JOBS IS LARGE (> 1000).
 % To rerun small numbers of missing jobs, it is more efficient to rerun
 % locally. To do this, use rerun_locally.m .
 

@@ -11,8 +11,8 @@ cd(root);
 % get target dimensions for RSL and rescale (see Cox et al., 2024, Imaging
 % Neuroscience, supplementary materials)
 load('/group/mlr-lab/Saskia/ECoG_RSL/src/dilkina_norms.mat');
-[C,z] = embed_similarity_matrix(dilkinaNorms,3);
-U = rescale_embedding(C,z);
+[U,z] = embed_similarity_matrix(dilkinaNorms,3);
+C = rescale_embedding(U,z);
 
 % load results
 load('/group/mlr-lab/Saskia/ECoG_RSL/derivatives/analysis/correlation/grOWL/performance/final/final_performance.mat');
@@ -58,7 +58,7 @@ for t = 1:length(dataType)
                     % dimension 1
                     predictedCoords = tmp(metadata(q).cvind(:,1) == ho, 1);
                     % get target coordinates for those stimuli for D1
-                    targetCoords = U(metadata(q).cvind(:,1) == ho, 1);
+                    targetCoords = C(metadata(q).cvind(:,1) == ho, 1);
                     % calculate correlation for all items
                     results.(dataType{t}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D1.all.final(ho,q) = corr(targetCoords,predictedCoords);
                     % calculate correlation just for animate and just for
@@ -67,13 +67,13 @@ for t = 1:length(dataType)
                     results.(dataType{t}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D1.inanimate.final(ho,q) = corr(targetCoords(6:10),predictedCoords(6:10));
                     % repeat for dimension 2
                     predictedCoords = tmp(metadata(q).cvind(:,1) == ho, 2);
-                    targetCoords = U(metadata(q).cvind(:,1) == ho, 2);
+                    targetCoords = C(metadata(q).cvind(:,1) == ho, 2);
                     results.(dataType{t}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D2.all.final(ho,q) = corr(targetCoords,predictedCoords);
                     results.(dataType{t}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D2.animate.final(ho,q) = corr(targetCoords(1:5),predictedCoords(1:5));
                     results.(dataType{t}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D2.inanimate.final(ho,q) = corr(targetCoords(6:10),predictedCoords(6:10));
                     % repeat for dimension 3
                     predictedCoords = tmp(metadata(q).cvind(:,1) == ho, 3);
-                    targetCoords = U(metadata(q).cvind(:,1) == ho, 3);
+                    targetCoords = C(metadata(q).cvind(:,1) == ho, 3);
                     results.(dataType{t}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D3.all.final(ho,q) = corr(targetCoords,predictedCoords);
                     results.(dataType{t}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D3.animate.final(ho,q) = corr(targetCoords(1:5),predictedCoords(1:5));
                     results.(dataType{t}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D3.inanimate.final(ho,q) = corr(targetCoords(6:10),predictedCoords(6:10));
@@ -111,7 +111,7 @@ for t = 1:length(dataType)
                         % dimension 1
                         predictedCoords = tmp(metadata(q).cvind(:,1) == ho, 1);
                         % get target coordinates for those stimuli for D1
-                        targetCoords = U(metadata(q).cvind(:,1) == ho, 1);
+                        targetCoords = C(metadata(q).cvind(:,1) == ho, 1);
                         % calculate correlation for all stimuli
                         results.(dataType{t}).(frequencyRange{f}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D1.all.final(ho,q) = corr(targetCoords,predictedCoords);
                         % calculate correlation just for animate and just for
@@ -120,13 +120,13 @@ for t = 1:length(dataType)
                         results.(dataType{t}).(frequencyRange{f}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D1.inanimate.final(ho,q) = corr(targetCoords(6:10),predictedCoords(6:10));
                         % repeat for dimension 2
                         predictedCoords = tmp(metadata(q).cvind(:,1) == ho, 2);
-                        targetCoords = U(metadata(q).cvind(:,1) == ho, 2);
+                        targetCoords = C(metadata(q).cvind(:,1) == ho, 2);
                         results.(dataType{t}).(frequencyRange{f}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D2.all.final(ho,q) = corr(targetCoords,predictedCoords);
                         results.(dataType{t}).(frequencyRange{f}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D2.animate.final(ho,q) = corr(targetCoords(1:5),predictedCoords(1:5));
                         results.(dataType{t}).(frequencyRange{f}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D2.inanimate.final(ho,q) = corr(targetCoords(6:10),predictedCoords(6:10));
                         % repeat for dimension 3
                         predictedCoords = tmp(metadata(q).cvind(:,1) == ho, 3);
-                        targetCoords = U(metadata(q).cvind(:,1) == ho, 3);
+                        targetCoords = C(metadata(q).cvind(:,1) == ho, 3);
                         results.(dataType{t}).(frequencyRange{f}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D3.all.final(ho,q) = corr(targetCoords,predictedCoords);
                         results.(dataType{t}).(frequencyRange{f}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D3.animate.final(ho,q) = corr(targetCoords(1:5),predictedCoords(1:5));
                         results.(dataType{t}).(frequencyRange{f}).(['waveletCentre',sprintf('%04d',waveletCentre(w))]).D3.inanimate.final(ho,q) = corr(targetCoords(6:10),predictedCoords(6:10));
