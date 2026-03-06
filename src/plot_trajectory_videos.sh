@@ -7,7 +7,7 @@ dirp=/group/mlr-lab/Saskia/ECoG_RSL/derivatives/results
 work=/group/mlr-lab/Saskia/ECoG_RSL/work
 
 # for invididual items and category centroids
-for items in categories; do
+for items in allitems categories; do
 
 mkdir -p $dirp/videos/$items/
 
