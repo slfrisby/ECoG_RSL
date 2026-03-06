@@ -3,9 +3,13 @@
 # load ffmpeg
 module load ffmpeg
 
-dirp=/group/mlr-lab/Saskia/ECoG_RSL/derivatives/results/
+dirp=/group/mlr-lab/Saskia/ECoG_RSL/derivatives/results
+work=/group/mlr-lab/Saskia/ECoG_RSL/work
 
-mkdir -p $dirp/videos/
+# for invididual items and category centroids
+for items in categories; do
+
+mkdir -p $dirp/videos/$items/
 
 # for dimensions 2 and 3
 for dimension in 2 3; do
@@ -16,17 +20,45 @@ for dataType in power phase; do
 # for each frequency band
 for frequency in all theta alpha beta gamma highGamma; do
 
+# make a text file, containing all the input .png files in the right order
+ls "$dirp/figures/trajectories/$items/$dataType/$frequency/D$dimension/"*.png | sort > $work/filelist.txt
+# Prepend "file '", append "'" to each line, and make each frame 0.1 seconds in duration 
+sed -i "s/^/file '/; s/$/'\nduration 0.1/" "$work/filelist.txt"
+
 # make the video
-ffmpeg -r 10 -pattern_type glob -i "$dirp/figures/trajectories/"$dataType"/"$frequency"/D"$dimension"/*.png" -vf "scale=1280:-2,minterpolate" -c:v libx264 -pix_fmt yuv420p $dirp/videos/"$dataType"_"$frequency"_D"$dimension".mp4
+ffmpeg -f concat \
+-r 10 \
+-safe 0 \
+-i $work/filelist.txt \
+-vf "scale=1280:-2,format=yuv420p" \
+-c:v libx264 \
+-crf 18 \
+-pix_fmt yuv420p \
+-movflags +faststart \
+"$dirp/videos/$items/${dataType}_${frequency}_D${dimension}.mp4"
 
 done
 done
 
-# for voltage data, make the video
-ffmpeg -r 10 -pattern_type glob -i "$dirp/figures/trajectories/voltage/D"$dimension"/*.png" -vf "scale=1280:-2,minterpolate" -c:v libx264 -pix_fmt yuv420p $dirp/videos/voltage_D"$dimension".mp4
+#now do voltage
+ls "$dirp/figures/trajectories/$items/voltage/D$dimension/"*.png | sort > $work/filelist.txt
+# Prepend "file '", append "'" to each line, and make each frame 0.1 seconds in duration 
+sed -i "s/^/file '/; s/$/'\nduration 0.1/" "$work/filelist.txt"
+
+# make the video
+ffmpeg -f concat \
+-r 10 \
+-safe 0 \
+-i $work/filelist.txt \
+-vf "scale=1280:-2,format=yuv420p" \
+-c:v libx264 \
+-crf 18 \
+-pix_fmt yuv420p \
+-movflags +faststart \
+"$dirp/videos/$items/voltage_D${dimension}.mp4"
 
 done
+done
 
-zip $dirp/videos.zip $dirp/videos/
 
 

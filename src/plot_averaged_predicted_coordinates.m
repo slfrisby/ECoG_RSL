@@ -1,4 +1,5 @@
-% Create plots of predicted coordinates at each timepoint.
+% Averages predicted coordinates to create category centroids and plots
+% these at each timepoint.
 
 % setup
 addpath('/group/mlr-lab/Saskia/ECoG_RSL/src/');
@@ -85,8 +86,10 @@ for d = 2:3
                     coordinatesScatter = gobjects(8,1);
                     % for each stimulus category
                     for c = 1:8
-                        % plot dots in the right colour
-                        coordinatesScatter(c) = scatter(coordinates(categories == c,d),coordinates(categories == c,1),dotSize,colours(c,:),'filled','MarkerEdgeColor','k');
+                        % get the average coordinate over items within a
+                        % category
+                        % plot dot in the right colour
+                        coordinatesScatter(c) = scatter(mean(coordinates(categories == c,d)),mean(coordinates(categories == c,1)),dotSize,colours(c,:),'filled','MarkerEdgeColor','k');
                         hold on
                     end
                     % set axis 
@@ -98,10 +101,10 @@ for d = 2:3
                     set(fig,'PaperPositionMode','auto')
 
                     % save the figure
-                    if ~exist([root,'/results/figures/trajectories/allitems/',dataType{t},'/D',num2str(d),'/'])
-                        mkdir([root,'/results/figures/trajectories/allitems/',dataType{t},'/D',num2str(d),'/'])
+                    if ~exist([root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/'])
+                        mkdir([root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/'])
                     end
-                    print(fig,[root,'/results/figures/trajectories/allitems/',dataType{t},'/D',num2str(d),'/',sprintf('%04d',waveletCentre(w)),'.png'],'-dpng','-r600');
+                    print(fig,[root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/',sprintf('%04d',waveletCentre(w)),'.png'],'-dpng','-r600');
     
                 % otherwise, if this is a timepoint after 0
                 else
@@ -122,16 +125,16 @@ for d = 2:3
                     for c = 1:8
                         % draw trajectories between these dots and the
                         % dots representing the previous timepoint
-                        plot([previousCoordinates(categories == c,d)';coordinates(categories == c,d)'],[previousCoordinates(categories == c,1)';coordinates(categories == c,1)'],'k-','Color',colours(c,:),'LineWidth',lineWidth);
+                        plot([mean(previousCoordinates(categories == c,d));mean(coordinates(categories == c,d))],[mean(previousCoordinates(categories == c,1));mean(coordinates(categories == c,1))],'k-','Color',colours(c,:),'LineWidth',lineWidth);
                         % plot dots in the right colour
-                        coordinatesScatter(c) = scatter(coordinates(categories == c,d),coordinates(categories == c,1),dotSize,colours(c,:),'filled','MarkerEdgeColor','k');   
+                        coordinatesScatter(c) = scatter(mean(coordinates(categories == c,d)),mean(coordinates(categories == c,1)),dotSize,colours(c,:),'filled','MarkerEdgeColor','k');   
                     end
 
                     % save the figure
-                    if ~exist([root,'/results/figures/trajectories/allitems/',dataType{t},'/D',num2str(d),'/'])
-                        mkdir([root,'/results/figures/trajectories/allitems/',dataType{t},'/D',num2str(d),'/'])
+                    if ~exist([root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/'])
+                        mkdir([root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/'])
                     end
-                    print(fig,[root,'/results/figures/trajectories/allitems/',dataType{t},'/D',num2str(d),'/',sprintf('%04d',waveletCentre(w)),'.png'],'-dpng','-r600');
+                    print(fig,[root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/',sprintf('%04d',waveletCentre(w)),'.png'],'-dpng','-r600');
     
                     % at the final timepoint
                     if w == length(waveletCentre)
@@ -139,10 +142,10 @@ for d = 2:3
                         % label the concepts
                         text(coordinates(:,d),coordinates(:,1),stimuli,'FontSize',10);
                         % save the figure
-                        if ~exist([root,'/results/figures/trajectories/allitems/',dataType{t},'/D',num2str(d),'/'])
-                            mkdir([root,'/results/figures/trajectories/allitems/',dataType{t},'/D',num2str(d),'/'])
+                        if ~exist([root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/'])
+                            mkdir([root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/'])
                         end
-                        print(fig,[root,'/results/figures/trajectories/allitems/',dataType{t},'/D',num2str(d),'/labels.png'],'-dpng','-r600');
+                        print(fig,[root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/labels.png'],'-dpng','-r600');
         
                         % close the figure
                         close(fig)
@@ -175,7 +178,7 @@ for d = 2:3
                         % for each stimulus category
                         for c = 1:8
                             % plot dots in the right colour
-                            coordinatesScatter(c) = scatter(coordinates(categories == c,d),coordinates(categories == c,1),dotSize,colours(c,:),'filled','MarkerEdgeColor','k');
+                            coordinatesScatter(c) = scatter(mean(coordinates(categories == c,d)),mean(coordinates(categories == c,1)),dotSize,colours(c,:),'filled','MarkerEdgeColor','k');
                             hold on
                         end
                         % set axis 
@@ -187,10 +190,10 @@ for d = 2:3
                         set(fig,'PaperPositionMode','auto')
 
                         % save the figure
-                        if ~exist([root,'/results/figures/trajectories/allitems/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
-                            mkdir([root,'/results/figures/trajectories/allitems/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
+                        if ~exist([root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
+                            mkdir([root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
                         end
-                        print(fig,[root,'/results/figures/trajectories/allitems/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/',sprintf('%04d',waveletCentre(w)),'.png'],'-dpng','-r600');
+                        print(fig,[root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/',sprintf('%04d',waveletCentre(w)),'.png'],'-dpng','-r600');
         
                     % otherwise, if this is a timepoint after 0
                     else
@@ -209,16 +212,16 @@ for d = 2:3
                         for c = 1:8
                             % draw trajectories between these dots and the
                             % dots representing the previous timepoint
-                            plot([previousCoordinates(categories == c,d)';coordinates(categories == c,d)'],[previousCoordinates(categories == c,1)';coordinates(categories == c,1)'],'k-','Color',colours(c,:),'LineWidth',lineWidth);
+                            plot([mean(previousCoordinates(categories == c,d));mean(coordinates(categories == c,d))],[mean(previousCoordinates(categories == c,1));mean(coordinates(categories == c,1))],'k-','Color',colours(c,:),'LineWidth',lineWidth);
                             % plot dots in the right colour
-                            coordinatesScatter(c) = scatter(coordinates(categories == c,d),coordinates(categories == c,1),dotSize,colours(c,:),'filled','MarkerEdgeColor','k');   
+                            coordinatesScatter(c) = scatter(mean(coordinates(categories == c,d)),mean(coordinates(categories == c,1)),dotSize,colours(c,:),'filled','MarkerEdgeColor','k');   
                         end
 
                         % save the figure
-                        if ~exist([root,'/results/figures/trajectories/allitems/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
-                            mkdir([root,'/results/figures/trajectories/allitems/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
+                        if ~exist([root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
+                            mkdir([root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
                         end
-                        print(fig,[root,'/results/figures/trajectories/allitems/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/',sprintf('%04d',waveletCentre(w)),'.png'],'-dpng','-r600');
+                        print(fig,[root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/',sprintf('%04d',waveletCentre(w)),'.png'],'-dpng','-r600');
         
                         % at the final timepoint
                         if w == length(waveletCentre)
@@ -226,10 +229,10 @@ for d = 2:3
                             % label the concepts
                             text(coordinates(:,d),coordinates(:,1),stimuli,'FontSize',10);
                             % save the figure
-                            if ~exist([root,'/results/figures/trajectories/allitems/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
-                                mkdir([root,'/results/figures/trajectories/allitems/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
+                            if ~exist([root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
+                                mkdir([root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
                             end
-                            print(fig,[root,'/results/figures/trajectories/allitems/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/labels.png'],'-dpng','-r600');
+                            print(fig,[root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/labels.png'],'-dpng','-r600');
             
                             % close the figure
                             close(fig)
