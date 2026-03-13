@@ -139,16 +139,9 @@ for d = 2:3
                     % at the final timepoint
                     if w == length(waveletCentre)
 
-                        % label the concepts
-                        text(coordinates(:,d),coordinates(:,1),stimuli,'FontSize',10);
-                        % save the figure
-                        if ~exist([root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/'])
-                            mkdir([root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/'])
-                        end
-                        print(fig,[root,'/results/figures/trajectories/categories/',dataType{t},'/D',num2str(d),'/labels.png'],'-dpng','-r600');
-        
                         % close the figure
                         close(fig)
+                        
                     end
                 end
             end
@@ -226,16 +219,9 @@ for d = 2:3
                         % at the final timepoint
                         if w == length(waveletCentre)
 
-                            % label the concepts
-                            text(coordinates(:,d),coordinates(:,1),stimuli,'FontSize',10);
-                            % save the figure
-                            if ~exist([root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
-                                mkdir([root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/'])
-                            end
-                            print(fig,[root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/D',num2str(d),'/labels.png'],'-dpng','-r600');
-            
                             % close the figure
                             close(fig)
+                            
                         end
                     end
                 end
