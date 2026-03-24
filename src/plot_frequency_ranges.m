@@ -3,11 +3,11 @@ function f = plot_frequency_ranges(theta,alpha,beta,gamma,highGamma)
     % plot hold-out correlations for different frequency ranges.
 
     % Arguments:
-    % theta - matrix of theta data, either power or phase (participants x timepoints; double)
-    % alpha - matrix of voltage data (participants x timepoints; double)
-    % beta - matrix of power data (participants x timepoints; double)
-    % gamma - matrix of voltage data (participants x x timepoints; double)
-    % highGamma - matrix of power data (participants x x timepoints; double)
+    % theta - matrix of cross-validated correlations for theta, either power or phase (participants x timepoints; double)
+    % alpha - matrix of cross-validated correlations for alpha (participants x timepoints; double)
+    % beta - matrix of cross-validated correlations for beta (participants x timepoints; double)
+    % gamma - matrix of cross-validated correlations for gamma (participants x x timepoints; double)
+    % highGamma - matrix of cross-validated correlations for high gamma (participants x x timepoints; double)
 
     % for each timepoint
     for i = 1:size(theta,2)
@@ -109,4 +109,7 @@ function f = plot_frequency_ranges(theta,alpha,beta,gamma,highGamma)
         dots.Color = hex2rgb('#006837');
     end
 
+    % make it a bit less pixellated
+    set(f,'Renderer','painters')
+    
 end

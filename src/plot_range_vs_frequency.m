@@ -92,5 +92,8 @@ function f = plot_range_vs_frequency(rangeFlag,range,frequency)
     if ~isempty(dots)
         dots.Color = hex2rgb('#000000');
     end
+
+    % make it a bit less pixellated
+    set(f,'Renderer','painters')
     
 end

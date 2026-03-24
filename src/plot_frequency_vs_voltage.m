@@ -3,8 +3,8 @@ function f = plot_frequency_vs_voltage(frequency,voltage)
     % plot hold-out correlations for time-frequency data (all frequency ranges; power or phase)  vs voltage. 
 
     % Arguments:
-    % frequency - matrix of power or phase data (participants x timepoints; double)
-    % voltage - matrix of voltage data (participants x timepoints; double)
+    % frequency - matrix of cross-validated correlations for power or phase (participants x timepoints; double)
+    % voltage - matrix of cross-validated correlations for voltage (participants x timepoints; double)
 
     % for each timepoint
     for i = 1:size(frequency,2)
@@ -77,5 +77,8 @@ function f = plot_frequency_vs_voltage(frequency,voltage)
     if ~isempty(dots)
         dots.Color = hex2rgb('#000000');
     end
+
+    % make it a bit less pixellated
+    set(f,'Renderer','painters')
 
 end
