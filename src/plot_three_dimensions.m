@@ -1,4 +1,4 @@
-function f = plot_three_dimensions(D1,D2,D3,dataType,w)
+function [lineD1, lineD2, lineD3] = plot_three_dimensions(D1,D2,D3,dataType,w)
 
     % plot hold-out correlations for all three dimensions on a single
     % subplot. 
@@ -71,10 +71,10 @@ function f = plot_three_dimensions(D1,D2,D3,dataType,w)
     p.zero.D3((w + 1):end) = 1;
           
     % plot timecourses in progressively less saturated colours
-    plot(1:size(D1,2),mean(D1),'Color',colour,'LineWidth',1.5)
+    lineD1 = plot(1:size(D1,2),mean(D1),'Color',colour,'LineWidth',1.5)
     hold on 
-    plot(1:size(D2,2),mean(D2),'Color',[colour,0.5],'LineWidth',1.5)
-    plot(1:size(D3,2),mean(D3),'Color',[colour,0.3],'LineWidth',1.5)
+    lineD2 = plot(1:size(D2,2),mean(D2),'Color',[colour,0.5],'LineWidth',1.5)
+    lineD3 = plot(1:size(D3,2),mean(D3),'Color',[colour,0.3],'LineWidth',1.5)
 
     % set axes
     axes = gca;
