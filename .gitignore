@@ -2,3 +2,4 @@ derivatives/
 doc/
 work/
 **.asv
+.DS_STORE

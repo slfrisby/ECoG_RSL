@@ -1,4 +1,4 @@
-function f = plot_frequency_ranges(theta,alpha,beta,gamma,highGamma)
+function f = plot_frequency_ranges(theta,alpha,beta,gamma,highGamma,y)
 
     % plot hold-out correlations for different frequency ranges.
 
@@ -8,6 +8,7 @@ function f = plot_frequency_ranges(theta,alpha,beta,gamma,highGamma)
     % beta - matrix of cross-validated correlations for beta (participants x timepoints; double)
     % gamma - matrix of cross-validated correlations for gamma (participants x x timepoints; double)
     % highGamma - matrix of cross-validated correlations for high gamma (participants x x timepoints; double)
+    % y - y-axis upper limit
 
     % for each timepoint
     for i = 1:size(theta,2)
@@ -67,8 +68,8 @@ function f = plot_frequency_ranges(theta,alpha,beta,gamma,highGamma)
     xticklabels(num2cell(0:500:1650));
     xlabel('Time (ms)');
     % y axis
-    ylim(axes,[-0.1,1]);
-    yticks(-0.1:0.1:1);
+    ylim(axes,[-0.1,y]);
+    yticks(-0.1:0.1:y);
     yline(0,'--');
     ylabel('Cross-validated correlation');
 
@@ -76,35 +77,35 @@ function f = plot_frequency_ranges(theta,alpha,beta,gamma,highGamma)
     % theta - difference from zero
     tmp = 1:size(theta,2);
     tmp(p.zero.theta >= 0.05) = [];
-    dots = plot(tmp,repmat(0.975,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.025,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots) % (if there are no dots, we can't set their colour)
         dots.Color = hex2rgb('#A50026');
     end
     % alpha - difference from zero
     tmp = 1:size(alpha,2);
     tmp(p.zero.alpha >= 0.05) = [];
-    dots = plot(tmp,repmat(0.95,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.05,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots) % (if there are no dots, we can't set their colour)
         dots.Color = hex2rgb('#F46D43');
     end
     % beta - difference from zero
     tmp = 1:size(beta,2);
     tmp(p.zero.beta >= 0.05) = [];
-    dots = plot(tmp,repmat(0.925,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.075,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots) % (if there are no dots, we can't set their colour)
         dots.Color = hex2rgb('#FDCC3F');
     end
     % gamma - difference from zero
     tmp = 1:size(gamma,2);
     tmp(p.zero.gamma >= 0.05) = [];
-    dots = plot(tmp,repmat(0.9,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.1,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots) % (if there are no dots, we can't set their colour)
         dots.Color = hex2rgb('#66BD63');
     end
     % high gamma - difference from zero
     tmp = 1:size(highGamma,2);
     tmp(p.zero.highGamma >= 0.05) = [];
-    dots = plot(tmp,repmat(0.875,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.125,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots) % (if there are no dots, we can't set their colour)
         dots.Color = hex2rgb('#006837');
     end

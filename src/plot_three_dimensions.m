@@ -1,4 +1,4 @@
-function [lineD1, lineD2, lineD3] = plot_three_dimensions(D1,D2,D3,dataType,w)
+function [lineD1, lineD2, lineD3] = plot_three_dimensions(D1, D2, D3, dataType, w, y)
 
     % plot hold-out correlations for all three dimensions on a single
     % subplot. 
@@ -12,6 +12,7 @@ function [lineD1, lineD2, lineD3] = plot_three_dimensions(D1,D2,D3,dataType,w)
     % w - timepoint index (integer). Data are plotted up to this timepoint. E.g. when
     % w = 2, the first and second timepoints (0 ms and 10 ms) are plotted.
     % When w = 166, all timepoints are plotted.
+    % y - y-axis upper limit
 
     % add plotting functions to path
     addpath('/group/mlr-lab/Saskia/ECoG_RSL/dependencies');
@@ -82,28 +83,28 @@ function [lineD1, lineD2, lineD3] = plot_three_dimensions(D1,D2,D3,dataType,w)
     xlim(axes,[0,size(D1,2)]);
     xticks(1:50:size(D1,2));
     xticklabels(num2cell(0:500:1650));
-    xlabel('Time (ms)');
+    xlabel('Time (ms)', 'FontSize', 12);
     % y axis
-    ylim(axes,[-0.1,1]);
-    yticks(-0.1:0.1:1);
+    ylim(axes,[-0.1,y]);
+    yticks(-0.1:0.1:y);
     yline(0,'--');
-    ylabel('Cross-validated correlation');
+    ylabel('Cross-validated correlation', 'FontSize', 12, 'Units', 'normalized');
 
     % plot dots to show significance
     % D1 - difference from zero
     tmp = 1:size(D1,2);
     tmp(p.zero.D1 >= 0.05) = [];
-    scatter(tmp,repmat(0.975,1,length(tmp)), 10, colour, 'filled', 'MarkerFaceAlpha', 1, 'MarkerEdgeColor', 'none');
+    scatter(tmp,repmat(y - 0.025,1,length(tmp)), 10, colour, 'filled', 'MarkerFaceAlpha', 1, 'MarkerEdgeColor', 'none');
 
     % D2 - difference from zero
     tmp = 1:size(D2,2);
     tmp(p.zero.D2 >= 0.05) = [];
-    scatter(tmp,repmat(0.95,1,length(tmp)), 10, colour, 'filled', 'MarkerFaceAlpha', 0.5, 'MarkerEdgeColor', 'none');
+    scatter(tmp,repmat(y - 0.05,1,length(tmp)), 10, colour, 'filled', 'MarkerFaceAlpha', 0.5, 'MarkerEdgeColor', 'none');
 
     % D3 - difference from zero
     tmp = 1:size(D3,2);
     tmp(p.zero.D3 >= 0.05) = [];
-    scatter(tmp,repmat(0.925,1,length(tmp)), 10, colour, 'filled', 'MarkerFaceAlpha', 0.3, 'MarkerEdgeColor', 'none');
+    scatter(tmp,repmat(y - 0.075,1,length(tmp)), 10, colour, 'filled', 'MarkerFaceAlpha', 0.3, 'MarkerEdgeColor', 'none');
 
     hold off
 end

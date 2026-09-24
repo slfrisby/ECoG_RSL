@@ -1,10 +1,11 @@
-function f = plot_frequency_vs_voltage(frequency,voltage)
+function f = plot_frequency_vs_voltage(frequency,voltage,y)
 
     % plot hold-out correlations for time-frequency data (all frequency ranges; power or phase)  vs voltage. 
 
     % Arguments:
     % frequency - matrix of cross-validated correlations for power or phase (participants x timepoints; double)
     % voltage - matrix of cross-validated correlations for voltage (participants x timepoints; double)
+    % y - y-axis upper limit
 
     % for each timepoint
     for i = 1:size(frequency,2)
@@ -50,8 +51,8 @@ function f = plot_frequency_vs_voltage(frequency,voltage)
     xticklabels(num2cell(0:500:1650));
     xlabel('Time (ms)');
     % y axis
-    ylim(axes,[-0.1,1]);
-    yticks(-0.1:0.1:1);
+    ylim(axes,[-0.1,y]);
+    yticks(-0.1:0.1:y);
     yline(0,'--');
     ylabel('Cross-validated correlation');
 
@@ -59,21 +60,21 @@ function f = plot_frequency_vs_voltage(frequency,voltage)
     % voltage - difference from zero
     tmp = 1:size(voltage,2);
     tmp(p.zero.voltage >= 0.05) = [];
-    dots = plot(tmp,repmat(0.975,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.025,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots) % (if there are no dots, we can't set their colour)
         dots.Color = hex2rgb('#996035');
     end
     % frequency - difference from zero
     tmp = 1:size(frequency,2);
     tmp(p.zero.frequency >= 0.05) = [];
-    dots = plot(tmp,repmat(0.95,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.05,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots)
         dots.Color = hex2rgb('#0066FF');
     end
     % frequency and voltage difference from each other
     tmp = 1:size(voltage,2);
     tmp(p.difference >= 0.05) = [];
-    dots = plot(tmp,repmat(0.925,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.075,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots)
         dots.Color = hex2rgb('#000000');
     end

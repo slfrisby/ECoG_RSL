@@ -78,11 +78,11 @@ for t = 1:length(dataType)
             % plot the timecourse up to this point - D1 for all stimuli, D2
             % for animate only, D3 for inanimate only
             axisTimecourse = subplot(3,4,[1:3]);
-            [lineD1, lineD2, lineD3] = plot_three_dimensions(groupTimecourses.voltage.D1.all, groupTimecourses.voltage.D2.animate, groupTimecourses.voltage.D3.inanimate, 'voltage', w);
+            [lineD1, lineD2, lineD3] = plot_three_dimensions(groupTimecourses.voltage.D1.all, groupTimecourses.voltage.D2.animate, groupTimecourses.voltage.D3.inanimate, 'voltage', w, 0.75);
             xticks([1:25:151])
             xticklabels(0:250:1500)
             yticks([0:0.2:1])
-            title('Decoding timecourse')
+            title('Decoding timecourse', 'FontSize', 12)
             legend([lineD1, lineD2, lineD3],'D1 - all stimuli','D2 - animate only','D3 - inanimate only')
             legend boxoff
 
@@ -107,10 +107,10 @@ for t = 1:length(dataType)
                     hold on
                 end
                 % set axis 
-                xlim([-0.1,0.1])
-                xlabel('Dimension 2')
-                ylim([-0.4,0.4])
-                ylabel('Dimension 1')
+                xlim([-0.03,0.03])
+                xlabel('Dimension 2', 'FontSize', 12)
+                ylim([-0.2,0.2])
+                ylabel('Dimension 1', 'FontSize', 12, 'Units', 'normalized', 'Position', [-0.0485, 0.5, 0])
                 box on
 
                 % subplot D3
@@ -122,9 +122,9 @@ for t = 1:length(dataType)
                     hold on
                 end
                 % set axis 
-                xlim([-0.1,0.1])
-                xlabel('Dimension 3')
-                ylim([-0.4,0.4])
+                xlim([-0.03,0.03])
+                xlabel('Dimension 3', 'FontSize', 12)
+                ylim([-0.2,0.2])
                 box on
                
                 % make a legend
@@ -132,24 +132,24 @@ for t = 1:length(dataType)
                 % plot each marker and label it
                 for c = 1:8
                    scatter(0.4, 9 - c, dotSize, colours(c,:), 'filled', 'MarkerEdgeColor', 'k'); 
-                   text(0.6, 9 - c, categoryLabels{c}, 'FontSize', 10);
+                   text(0.6, 9 - c, categoryLabels{c}, 'FontSize', 12);
                    hold on
                 end
                 % set axis
                 xlim([0,3])
                 ylim([0,9])
                 set(axisLegend,'xtick',[],'ytick',[])
-                title('Key')
+                title('Key', 'FontSize', 12)
                 box on
 
                 % set the title of all the plots
-                annotation('textbox', [0, 0.985, 1, 0], 'String', 'Voltage', 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', 'EdgeColor', 'none', 'FontSize', 12, 'FontWeight', 'bold');
+                annotation('textbox', [0, 0.985, 1, 0], 'String', 'Voltage', 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', 'EdgeColor', 'none', 'FontSize', 14, 'FontWeight', 'bold');
                 % make a subtitle that spans both of the coordinate plots
                 % (it is important to do this after setting the main title,
                 % to get the right relative positioning)
                 axisSubtitle = axes('Position',[axisD2.Position(1), axisD2.Position(2), axisD3.Position(1) + axisD3.Position(3) - axisD2.Position(1), axisD2.Position(4)], 'Visible', 'off');
-                subtitle = title(axisSubtitle,'Predicted coordinates (averaged across patients)', 'Visible', 'on');
-                subtitle.Position(2) = axisTimecourse.Title.Position(2);
+                subtitle = title(axisSubtitle,'Predicted coordinates (averaged across patients)', 'Visible', 'on', 'FontSize', 12);
+                subtitle.Position(2) = 1.02;
                 
                 % make it a bit less pixellated
                 set(fig,'Renderer','painters')
@@ -171,6 +171,9 @@ for t = 1:length(dataType)
                 panelD2.Position(3:4) = [560 560];
                 % copy the subplot in
                 axisD2 = copyobj(axisD2, panelD2);
+                % remove labels
+                xlabel(axisD2,'');
+                ylabel(axisD2,'');
                 % make it fill the figure
                 set(axisD2, 'Position', [0.1,0.1,0.8,0.8]);
                 % make it a bit less pixellated
@@ -191,6 +194,8 @@ for t = 1:length(dataType)
                 panelD3.Position(3:4) = [560 560];
                 % copy the subplot in
                 axisD3 = copyobj(axisD3, panelD3);
+                % remove labels
+                xlabel(axisD3,'');
                 % make it fill the figure
                 set(axisD3, 'Position', [0.1,0.1,0.8,0.8]);
                 % make it a bit less pixellated
@@ -246,8 +251,8 @@ for t = 1:length(dataType)
 
                 % add the subtitle back on
                 axisSubtitle = axes('Position',[axisD2.Position(1), axisD2.Position(2), axisD3.Position(1) + axisD3.Position(3) - axisD2.Position(1), axisD2.Position(4)], 'Visible', 'off');
-                subtitle = title(axisSubtitle,'Predicted coordinates (averaged across patients)', 'Visible', 'on');
-                subtitle.Position(2) = axisTimecourse.Title.Position(2);
+                subtitle = title(axisSubtitle,'Predicted coordinates (averaged across patients)', 'Visible', 'on', 'FontSize', 12);
+                subtitle.Position(2) = 1.02;
                 
                 % save the full figure
                 print(fig,[root,'/results/figures/trajectories/categories/',dataType{t},'/full/',sprintf('%04d',waveletCentre(w)),'.png'],'-dpng','-r600');
@@ -260,6 +265,9 @@ for t = 1:length(dataType)
                 panelD2.Position(3:4) = [560 560];
                 % copy the subplot in
                 axisD2 = copyobj(axisD2, panelD2);
+                % remove labels
+                xlabel(axisD2,'');
+                ylabel(axisD2,'');
                 % make it fill the figure
                 set(axisD2, 'Position', [0.1,0.1,0.8,0.8]);
                 % make it a bit less pixellated
@@ -277,6 +285,8 @@ for t = 1:length(dataType)
                 panelD3.Position(3:4) = [560 560];
                 % copy the subplot in
                 axisD3 = copyobj(axisD3, panelD3);
+                % remove labels
+                xlabel(axisD3,'');
                 % make it fill the figure
                 set(axisD3, 'Position', [0.1,0.1,0.8,0.8]);
                 % make it a bit less pixellated
@@ -313,11 +323,11 @@ for t = 1:length(dataType)
                 % plot the timecourse up to this point - D1 for all stimuli, D2
                 % for animate only, D3 for inanimate only
                 axisTimecourse = subplot(3,4,[1:3]);
-                [lineD1, lineD2, lineD3] = plot_three_dimensions(groupTimecourses.(dataType{t}).(frequencyRange{f}).D1.all, groupTimecourses.(dataType{t}).(frequencyRange{f}).D2.animate, groupTimecourses.(dataType{t}).(frequencyRange{f}).D3.inanimate, frequencyRange{f}, w);
+                [lineD1, lineD2, lineD3] = plot_three_dimensions(groupTimecourses.(dataType{t}).(frequencyRange{f}).D1.all, groupTimecourses.(dataType{t}).(frequencyRange{f}).D2.animate, groupTimecourses.(dataType{t}).(frequencyRange{f}).D3.inanimate, frequencyRange{f}, w, 0.75);
                 xticks([1:25:151])
                 xticklabels(0:250:1500)
                 yticks([0:0.2:1])
-                title('Decoding timecourse')
+                title('Decoding timecourse', 'FontSize', 12)
                 legend([lineD1, lineD2, lineD3],'D1 - all stimuli','D2 - animate only','D3 - inanimate only')
                 legend boxoff
 
@@ -342,10 +352,10 @@ for t = 1:length(dataType)
                         hold on
                     end
                     % set axis 
-                    xlim([-0.1,0.1])
-                    xlabel('Dimension 2')
-                    ylim([-0.4,0.4])
-                    ylabel('Dimension 1')
+                    xlim([-0.03,0.03])
+                    xlabel('Dimension 2', 'FontSize', 12)
+                    ylim([-0.2,0.2])
+                    ylabel('Dimension 1', 'FontSize', 12, 'Units', 'normalized', 'Position', [-0.0485, 0.5, 0])
                     box on
     
                     % subplot D3
@@ -357,9 +367,9 @@ for t = 1:length(dataType)
                         hold on
                     end
                     % set axis 
-                    xlim([-0.1,0.1])
-                    xlabel('Dimension 3')
-                    ylim([-0.4,0.4])
+                    xlim([-0.03,0.03])
+                    xlabel('Dimension 3', 'FontSize', 12)
+                    ylim([-0.2,0.2])
                     box on
                    
                     % make a legend
@@ -374,7 +384,7 @@ for t = 1:length(dataType)
                     xlim([0,3])
                     ylim([0,9])
                     set(axisLegend,'xtick',[],'ytick',[])
-                    title('Key')
+                    title('Key', 'FontSize', 12)
                     box on
 
                     % set the title of all the plots (cheekily capitalising
@@ -382,16 +392,16 @@ for t = 1:length(dataType)
                     % if it is a high gamma job
                     if f == 6
                         % add the right spacing between words
-                        annotation('textbox', [0, 0.985, 1, 0], 'String', ['P',dataType{t}(2:end),' - high gamma'], 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', 'EdgeColor', 'none', 'FontSize', 12, 'FontWeight', 'bold');
+                        annotation('textbox', [0, 0.985, 1, 0], 'String', ['P',dataType{t}(2:end),' - high gamma'], 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', 'EdgeColor', 'none', 'FontSize', 14, 'FontWeight', 'bold');
                     else
-                        annotation('textbox', [0, 0.985, 1, 0], 'String', ['P',dataType{t}(2:end),' - ',frequencyRange{f}], 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', 'EdgeColor', 'none', 'FontSize', 12, 'FontWeight', 'bold');
+                        annotation('textbox', [0, 0.985, 1, 0], 'String', ['P',dataType{t}(2:end),' - ',frequencyRange{f}], 'HorizontalAlignment', 'center', 'VerticalAlignment', 'top', 'EdgeColor', 'none', 'FontSize', 14, 'FontWeight', 'bold');
                     end
                     % make a subtitle that spans both of the coordinate plots
                     % (it is important to do this after setting the main title,
                     % to get the right relative positioning)
                     axisSubtitle = axes('Position',[axisD2.Position(1), axisD2.Position(2), axisD3.Position(1) + axisD3.Position(3) - axisD2.Position(1), axisD2.Position(4)], 'Visible', 'off');
-                    subtitle = title(axisSubtitle,'Predicted coordinates (averaged across patients)', 'Visible', 'on');
-                    subtitle.Position(2) = axisTimecourse.Title.Position(2);
+                    subtitle = title(axisSubtitle,'Predicted coordinates (averaged across patients)', 'Visible', 'on', 'FontSize', 12);
+                    subtitle.Position(2) = 1.02;
                     
                     % make it a bit less pixellated
                     set(fig,'Renderer','painters')
@@ -413,6 +423,9 @@ for t = 1:length(dataType)
                     panelD2.Position(3:4) = [560 560];
                     % copy the subplot in
                     axisD2 = copyobj(axisD2, panelD2);
+                    % remove labels
+                    xlabel(axisD2,'');
+                    ylabel(axisD2,'');
                     % make it fill the figure
                     set(axisD2, 'Position', [0.1,0.1,0.8,0.8]);
                     % make it a bit less pixellated
@@ -433,6 +446,8 @@ for t = 1:length(dataType)
                     panelD3.Position(3:4) = [560 560];
                     % copy the subplot in
                     axisD3 = copyobj(axisD3, panelD3);
+                    % remove labels
+                    xlabel(axisD3,'');
                     % make it fill the figure
                     set(axisD3, 'Position', [0.1,0.1,0.8,0.8]);
                     % make it a bit less pixellated
@@ -488,8 +503,8 @@ for t = 1:length(dataType)
     
                     % add the subtitle back on
                     axisSubtitle = axes('Position',[axisD2.Position(1), axisD2.Position(2), axisD3.Position(1) + axisD3.Position(3) - axisD2.Position(1), axisD2.Position(4)], 'Visible', 'off');
-                    subtitle = title(axisSubtitle,'Predicted coordinates (averaged across patients)', 'Visible', 'on');
-                    subtitle.Position(2) = axisTimecourse.Title.Position(2);
+                    subtitle = title(axisSubtitle,'Predicted coordinates (averaged across patients)', 'Visible', 'on', 'FontSize', 12);
+                    subtitle.Position(2) = 1.02;
                     
                     % save
                     print(fig,[root,'/results/figures/trajectories/categories/',dataType{t},'/',frequencyRange{f},'/full/',sprintf('%04d',waveletCentre(w)),'.png'],'-dpng','-r600');
@@ -502,6 +517,9 @@ for t = 1:length(dataType)
                     panelD2.Position(3:4) = [560 560];
                     % copy the subplot in
                     axisD2 = copyobj(axisD2, panelD2);
+                    % remove labels
+                    xlabel(axisD2,'');
+                    ylabel(axisD2,'');
                     % make it fill the figure
                     set(axisD2, 'Position', [0.1,0.1,0.8,0.8]);
                     % make it a bit less pixellated
@@ -519,6 +537,8 @@ for t = 1:length(dataType)
                     panelD3.Position(3:4) = [560 560];
                     % copy the subplot in
                     axisD3 = copyobj(axisD3, panelD3);
+                    % remove labels
+                    xlabel(axisD3,'');
                     % make it fill the figure
                     set(axisD3, 'Position', [0.1,0.1,0.8,0.8]);
                     % make it a bit less pixellated

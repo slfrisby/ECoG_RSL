@@ -1,4 +1,4 @@
-function f = plot_range_vs_frequency(rangeFlag,range,frequency)
+function f = plot_range_vs_frequency(rangeFlag,range,frequency,y)
 
     % plot hold-out correlations for time-frequency data within a specific range vs. data from all ranges (power or phase). 
 
@@ -6,6 +6,7 @@ function f = plot_range_vs_frequency(rangeFlag,range,frequency)
     % rangeFlag - which range the data comes from (this controls the colour; character vector)
     % range - matrix of power or phase data within a specific frequency range (participants x timepoints; double)
     % frequency - matrix of power or phase data from all frequency ranges (participants x timepoints; double)
+    % y - y-axis upper limit
 
     % set colour to plot timecourse of specific frequency  (all frequencies is always blue)
     switch rangeFlag
@@ -65,8 +66,8 @@ function f = plot_range_vs_frequency(rangeFlag,range,frequency)
     xticklabels(num2cell(0:500:1650));
     xlabel('Time (ms)');
     % y axis
-    ylim(axes,[-0.1,1]);
-    yticks(-0.1:0.1:1);
+    ylim(axes,[-0.1,y]);
+    yticks(-0.1:0.1:y);
     yline(0,'--');
     ylabel('Cross-validated correlation');
 
@@ -74,21 +75,21 @@ function f = plot_range_vs_frequency(rangeFlag,range,frequency)
     % all frequencies - difference from zero
     tmp = 1:size(frequency,2);
     tmp(p.zero.frequency >= 0.05) = [];
-    dots = plot(tmp,repmat(0.975,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.025,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots) % (if there are no dots, we can't set their colour)
         dots.Color = hex2rgb('#0066FF');
     end
     % specific frequency range - difference from zero
     tmp = 1:size(range,2);
     tmp(p.zero.range >= 0.05) = [];
-    dots = plot(tmp,repmat(0.95,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.05,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots)
         dots.Color = hex2rgb(colour);
     end
     % difference from each other
     tmp = 1:size(frequency,2);
     tmp(p.difference >= 0.05) = [];
-    dots = plot(tmp,repmat(0.925,1,length(tmp)),'.','MarkerSize',10);
+    dots = plot(tmp,repmat(y - 0.075,1,length(tmp)),'.','MarkerSize',10);
     if ~isempty(dots)
         dots.Color = hex2rgb('#000000');
     end
